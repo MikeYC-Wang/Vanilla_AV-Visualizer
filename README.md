@@ -2,7 +2,7 @@
 
 純前端、零依賴的即時影音視覺化引擎。完全使用原生 Web API（Web Audio API + Canvas 2D）打造，不引入任何繪圖框架或建置工具。VHS 暖色復古視覺風格。
 
-[線上 Demo](https://mikeyc-wang.github.io/Vanilla_AV-Visualizer/) · [GitHub](https://github.com/MikeYC-Wang/Vanilla_AV-Visualizer)
+[GitHub](https://github.com/MikeYC-Wang/Vanilla_AV-Visualizer)
 
 ---
 
