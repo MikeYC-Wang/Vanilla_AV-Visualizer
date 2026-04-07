@@ -81,6 +81,7 @@ export function loadFromURL(url) {
   el.addEventListener("loadedmetadata", () => {
     setStatus("READY");
     dispatchReady(isVideo ? "video" : "audio", el);
+    play();
   }, { once: true });
   return el;
 }
@@ -104,6 +105,7 @@ export function loadFromFile(file) {
   el.addEventListener("loadedmetadata", () => {
     setStatus("READY");
     dispatchReady(isVideo ? "video" : "audio", el);
+    play();
   }, { once: true });
   return el;
 }

@@ -408,6 +408,7 @@
     el.addEventListener("loadedmetadata", () => {
       sm_setStatus("READY");
       sm_dispatchReady(isVideo ? "video" : "audio", el);
+      sm_play();
     }, { once: true });
     return el;
   }
@@ -431,6 +432,7 @@
     el.addEventListener("loadedmetadata", () => {
       sm_setStatus("READY");
       sm_dispatchReady(isVideo ? "video" : "audio", el);
+      sm_play();
     }, { once: true });
     return el;
   }
