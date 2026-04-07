@@ -152,6 +152,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   padding: 6px 12px;
   background: linear-gradient(180deg, #3a1c0a, #251306);
   color: var(--vhs-cream);
