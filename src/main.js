@@ -96,6 +96,7 @@ function frame(now) {
 
   // Pull audio data (stub-safe)
   if (analyser.update) { try { analyser.update(state); } catch (_) {} }
+  // Extract latest video frame to offscreen canvas before renderer.draw uses it.
   if (frameExtractor.update) { try { frameExtractor.update(state); } catch (_) {} }
 
   // Update modules
