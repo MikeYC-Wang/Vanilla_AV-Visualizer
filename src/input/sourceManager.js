@@ -3,6 +3,11 @@
 // Dispatches 'av:source-ready' on window so the analyser can attach.
 
 import { state } from "../state.js";
+import { t } from "../i18n.js";
+
+const BLOCKED_HOST_RE = /(?:youtube\.com|youtu\.be|spotify\.com|soundcloud\.com|bilibili\.com|vimeo\.com|tiktok\.com)/i;
+const MEDIA_EXT_RE = /\.(mp3|wav|ogg|m4a|flac|aac|opus|mp4|webm|mov|m4v|ogv)(\?|#|$)/i;
+const MEDIA_PATH_HINT_RE = /\/(audio|media|sound|music|stream)\//i;
 
 let currentMedia = null;   // HTMLMediaElement
 let currentStream = null;  // MediaStream
@@ -60,6 +65,13 @@ export function init() { /* no-op; lazy */ }
 
 export function loadFromURL(url) {
   if (!url) return null;
+  if (BLOCKED_HOST_RE.test(url)) {
+    setStatus(t("error.unsupportedHost"));
+    return null;
+  }
+  if (!MEDIA_EXT_RE.test(url) && !MEDIA_PATH_HINT_RE.test(url)) {
+    setStatus(t("error.maybeNotMedia"));
+  }
   disposeCurrent();
   const isVideo = isVideoUrl(url);
   const el = makeMediaElement(url, isVideo);

@@ -40,6 +40,16 @@
         <button id="btn-load" class="btn" data-i18n="btn.load">LOAD</button>
       </div>
 
+      <div class="row row-split" style="margin-top:6px;">
+        <span class="lbl" data-i18n="sample.title" style="align-self:center;font-size:11px;">SAMPLES</span>
+        <button class="btn" data-sample-url="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
+          data-i18n="sample.1" style="font-size:12px;padding:4px 8px;">Lo-Fi</button>
+        <button class="btn" data-sample-url="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3"
+          data-i18n="sample.2" style="font-size:12px;padding:4px 8px;">Beat</button>
+        <button class="btn" data-sample-url="https://cdn.pixabay.com/download/audio/2022/10/25/audio_864e7b2d4c.mp3"
+          data-i18n="sample.3" style="font-size:12px;padding:4px 8px;">Electronic</button>
+      </div>
+
       <div class="row row-split">
         <label class="btn file-btn">
           <span data-i18n="btn.file">FILE</span>
@@ -99,6 +109,6 @@
   <div class="noise" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
 
-  <script type="module" src="./src/main.js"></script>
+  <script src="./bundle.js" defer></script>
 </body>
 </html>
