@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AV-VISUALIZER // VHS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="stage-wrap">
+    <canvas id="stage" aria-label="Audio visual canvas"></canvas>
+    <div class="vhs-hud" aria-hidden="true">
+      <span class="hud-tag hud-rec">REC</span>
+      <span class="hud-tag">SP &middot; LP</span>
+      <span class="hud-tag hud-time" id="hud-time">00:00:00</span>
+      <span class="hud-tag hud-ch">CH-01</span>
+    </div>
+  </main>
+
+  <aside class="panel" aria-label="Controls">
+    <header class="panel-head">
+      <h1>AV//VISUALIZER</h1>
+      <p class="sub">vanilla &middot; canvas &middot; vhs</p>
+    </header>
+
+    <section class="panel-section">
+      <label class="lbl" for="url-input">SOURCE URL</label>
+      <div class="row">
+        <input
+          id="url-input"
+          type="url"
+          spellcheck="false"
+          value="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
+        />
+        <button id="btn-load" class="btn">LOAD</button>
+      </div>
+
+      <div class="row row-split">
+        <label class="btn file-btn">
+          FILE
+          <input id="file-input" type="file" accept="audio/*,video/*" hidden />
+        </label>
+        <button id="btn-mic" class="btn">MIC</button>
+        <button id="btn-play" class="btn btn-accent">PLAY</button>
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h2 class="sec-title">PARAMETERS</h2>
+
+      <div class="ctrl">
+        <label for="bassGain">BASS GAIN <span class="val" data-val="bassGain">1.00</span></label>
+        <input id="bassGain" type="range" min="0" max="3" step="0.01" value="1" />
+      </div>
+
+      <div class="ctrl">
+        <label for="particleCount">PARTICLES <span class="val" data-val="particleCount">1000</span></label>
+        <input id="particleCount" type="range" min="0" max="4000" step="50" value="1000" />
+      </div>
+
+      <div class="ctrl">
+        <label for="glitchIntensity">GLITCH <span class="val" data-val="glitchIntensity">0.30</span></label>
+        <input id="glitchIntensity" type="range" min="0" max="1" step="0.01" value="0.3" />
+      </div>
+
+      <div class="ctrl">
+        <label for="rgbShift">RGB SHIFT <span class="val" data-val="rgbShift">4</span></label>
+        <input id="rgbShift" type="range" min="0" max="40" step="1" value="4" />
+      </div>
+
+      <div class="ctrl">
+        <label for="chromaThreshold">CHROMA THR <span class="val" data-val="chromaThreshold">0.40</span></label>
+        <input id="chromaThreshold" type="range" min="0" max="1" step="0.01" value="0.4" />
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h2 class="sec-title">MODULES</h2>
+      <div class="toggles">
+        <label class="tgl"><input type="checkbox" data-mod="circularSpectrum" checked /><span>CIRCULAR SPECTRUM</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="particles" checked /><span>PARTICLES</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="rgbShift" checked /><span>RGB SHIFT</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="glitch" checked /><span>GLITCH</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="chroma" /><span>CHROMA KEY</span></label>
+      </div>
+    </section>
+
+    <footer class="panel-foot">
+      <span id="status">STANDBY</span>
+    </footer>
+  </aside>
+
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
