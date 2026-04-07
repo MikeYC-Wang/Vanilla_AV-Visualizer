@@ -73,35 +73,7 @@ function setStatus(msg) {
 }
 function truncate(s, n) { return s.length > n ? s.slice(0, n - 1) + "…" : s; }
 
-// ---------- VHS background draw (until renderer is implemented) ----------
-function drawVhsBackground(t) {
-  const { width: w, height: h } = state;
-  // Warm gradient base
-  const g = ctx.createRadialGradient(w * 0.5, h * 0.42, 40, w * 0.5, h * 0.5, Math.max(w, h) * 0.7);
-  g.addColorStop(0, "#3a1a08");
-  g.addColorStop(0.55, "#1f0d05");
-  g.addColorStop(1, "#0a0502");
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, w, h);
-
-  // Soft horizontal bands (tape weave)
-  ctx.globalAlpha = 0.05;
-  ctx.fillStyle = "#ffb347";
-  const bandH = 2;
-  const offset = (t * 0.04) % (bandH * 2);
-  for (let y = -offset; y < h; y += bandH * 2) {
-    ctx.fillRect(0, y, w, bandH);
-  }
-  ctx.globalAlpha = 1;
-
-  // Center crosshair (placeholder, very faint)
-  ctx.strokeStyle = "rgba(255,179,71,0.06)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(w / 2, 0); ctx.lineTo(w / 2, h);
-  ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2);
-  ctx.stroke();
-}
+// Renderer owns the VHS background, fade trails, and grain. See render/renderer.js.
 
 // ---------- HUD time ----------
 const hudTime = document.getElementById("hud-time");
@@ -127,19 +99,10 @@ function frame(now) {
   if (frameExtractor.update) { try { frameExtractor.update(state); } catch (_) {} }
 
   // Update modules
-  if (state.modules.particles && particles.update) { try { particles.update(state); } catch (_) {} }
+  if (state.modules.particles) { try { particles.update(state, dt); } catch (_) {} }
 
-  // Background
-  drawVhsBackground(state.time);
-
-  // Draw modules (stub-safe)
-  if (state.modules.circularSpectrum && circularSpectrum.draw) { try { circularSpectrum.draw(ctx, state); } catch (_) {} }
-  if (state.modules.particles && particles.draw) { try { particles.draw(ctx, state); } catch (_) {} }
-  if (state.modules.rgbShift && rgbShift.draw) { try { rgbShift.draw(ctx, state); } catch (_) {} }
-  if (state.modules.glitch && glitch.draw) { try { glitch.draw(ctx, state); } catch (_) {} }
-  if (state.modules.chroma && chroma.draw) { try { chroma.draw(ctx, state); } catch (_) {} }
-
-  if (renderer.draw) { try { renderer.draw(ctx, state); } catch (_) {} }
+  // Centralized render pass: background, video FX, spectrum, particles, grain.
+  try { renderer.draw(state, dt); } catch (_) {}
 
   updateHud();
   requestAnimationFrame(frame);
