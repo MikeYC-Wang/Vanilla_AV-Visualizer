@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AV-VISUALIZER // VHS</title>
+  <title data-i18n="app.title">Vanilla AV Visualizer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
@@ -21,13 +21,15 @@
   </main>
 
   <aside class="panel" aria-label="Controls">
-    <header class="panel-head">
-      <h1>AV//VISUALIZER</h1>
-      <p class="sub">vanilla &middot; canvas &middot; vhs</p>
+    <header class="panel-head" style="position:relative;">
+      <h1 data-i18n="app.heading">AV//VISUALIZER</h1>
+      <p class="sub" data-i18n="app.sub">vanilla &middot; canvas &middot; vhs</p>
+      <button id="btn-lang" class="btn" data-i18n="lang.toggle"
+        style="position:absolute;top:6px;right:6px;padding:2px 8px;font-size:11px;line-height:1.4;">中 / EN</button>
     </header>
 
     <section class="panel-section">
-      <label class="lbl" for="url-input">SOURCE URL</label>
+      <label class="lbl" for="url-input" data-i18n="panel.source">SOURCE URL</label>
       <div class="row">
         <input
           id="url-input"
@@ -35,61 +37,61 @@
           spellcheck="false"
           value="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
         />
-        <button id="btn-load" class="btn">LOAD</button>
+        <button id="btn-load" class="btn" data-i18n="btn.load">LOAD</button>
       </div>
 
       <div class="row row-split">
         <label class="btn file-btn">
-          FILE
+          <span data-i18n="btn.file">FILE</span>
           <input id="file-input" type="file" accept="audio/*,video/*" hidden />
         </label>
-        <button id="btn-mic" class="btn">MIC</button>
-        <button id="btn-play" class="btn btn-accent">PLAY</button>
+        <button id="btn-mic" class="btn" data-i18n="btn.mic">MIC</button>
+        <button id="btn-play" class="btn btn-accent" data-i18n="btn.play">PLAY</button>
       </div>
     </section>
 
     <section class="panel-section">
-      <h2 class="sec-title">PARAMETERS</h2>
+      <h2 class="sec-title" data-i18n="sec.parameters">PARAMETERS</h2>
 
       <div class="ctrl">
-        <label for="bassGain">BASS GAIN <span class="val" data-val="bassGain">1.00</span></label>
+        <label for="bassGain"><span data-i18n="param.bassGain">BASS GAIN</span> <span class="val" data-val="bassGain">1.00</span></label>
         <input id="bassGain" type="range" min="0" max="3" step="0.01" value="1" />
       </div>
 
       <div class="ctrl">
-        <label for="particleCount">PARTICLES <span class="val" data-val="particleCount">1000</span></label>
+        <label for="particleCount"><span data-i18n="param.particleCount">PARTICLES</span> <span class="val" data-val="particleCount">1000</span></label>
         <input id="particleCount" type="range" min="0" max="4000" step="50" value="1000" />
       </div>
 
       <div class="ctrl">
-        <label for="glitchIntensity">GLITCH <span class="val" data-val="glitchIntensity">0.30</span></label>
+        <label for="glitchIntensity"><span data-i18n="param.glitchIntensity">GLITCH</span> <span class="val" data-val="glitchIntensity">0.30</span></label>
         <input id="glitchIntensity" type="range" min="0" max="1" step="0.01" value="0.3" />
       </div>
 
       <div class="ctrl">
-        <label for="rgbShift">RGB SHIFT <span class="val" data-val="rgbShift">4</span></label>
+        <label for="rgbShift"><span data-i18n="param.rgbShift">RGB SHIFT</span> <span class="val" data-val="rgbShift">4</span></label>
         <input id="rgbShift" type="range" min="0" max="40" step="1" value="4" />
       </div>
 
       <div class="ctrl">
-        <label for="chromaThreshold">CHROMA THR <span class="val" data-val="chromaThreshold">0.40</span></label>
+        <label for="chromaThreshold"><span data-i18n="param.chromaThreshold">CHROMA THR</span> <span class="val" data-val="chromaThreshold">0.40</span></label>
         <input id="chromaThreshold" type="range" min="0" max="1" step="0.01" value="0.4" />
       </div>
     </section>
 
     <section class="panel-section">
-      <h2 class="sec-title">MODULES</h2>
+      <h2 class="sec-title" data-i18n="sec.modules">MODULES</h2>
       <div class="toggles">
-        <label class="tgl"><input type="checkbox" data-mod="circularSpectrum" checked /><span>CIRCULAR SPECTRUM</span></label>
-        <label class="tgl"><input type="checkbox" data-mod="particles" checked /><span>PARTICLES</span></label>
-        <label class="tgl"><input type="checkbox" data-mod="rgbShift" checked /><span>RGB SHIFT</span></label>
-        <label class="tgl"><input type="checkbox" data-mod="glitch" checked /><span>GLITCH</span></label>
-        <label class="tgl"><input type="checkbox" data-mod="chroma" /><span>CHROMA KEY</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="circularSpectrum" checked /><span data-i18n="mod.circularSpectrum">CIRCULAR SPECTRUM</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="particles" checked /><span data-i18n="mod.particles">PARTICLES</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="rgbShift" checked /><span data-i18n="mod.rgbShift">RGB SHIFT</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="glitch" checked /><span data-i18n="mod.glitch">GLITCH</span></label>
+        <label class="tgl"><input type="checkbox" data-mod="chroma" /><span data-i18n="mod.chroma">CHROMA KEY</span></label>
       </div>
     </section>
 
     <footer class="panel-foot">
-      <span id="status">STANDBY</span>
+      <span id="status" data-i18n="status.ready">STANDBY</span>
     </footer>
   </aside>
 

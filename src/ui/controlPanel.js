@@ -1,5 +1,7 @@
 // Wires DOM controls to the central state object.
 
+import { setLang, getLang, applyTo, t } from "../i18n.js";
+
 const NUM_PARAMS = ["bassGain", "particleCount", "glitchIntensity", "rgbShift", "chromaThreshold"];
 
 function fmt(key, v) {
@@ -8,6 +10,9 @@ function fmt(key, v) {
 }
 
 export function init({ state, onLoadUrl, onFile, onMic, onPlayToggle }) {
+  // Apply initial translations
+  applyTo(document);
+
   // Sliders
   for (const key of NUM_PARAMS) {
     const input = document.getElementById(key);
@@ -37,9 +42,15 @@ export function init({ state, onLoadUrl, onFile, onMic, onPlayToggle }) {
   const btnLoad = document.getElementById("btn-load");
   if (urlInput) urlInput.value = state.url;
   if (btnLoad && urlInput) {
-    btnLoad.addEventListener("click", () => onLoadUrl?.(urlInput.value.trim()));
+    btnLoad.addEventListener("click", () => {
+      setStatus("loading");
+      onLoadUrl?.(urlInput.value.trim());
+    });
     urlInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") onLoadUrl?.(urlInput.value.trim());
+      if (e.key === "Enter") {
+        setStatus("loading");
+        onLoadUrl?.(urlInput.value.trim());
+      }
     });
   }
 
@@ -47,18 +58,43 @@ export function init({ state, onLoadUrl, onFile, onMic, onPlayToggle }) {
   const fileInput = document.getElementById("file-input");
   fileInput?.addEventListener("change", () => {
     const f = fileInput.files?.[0];
-    if (f) onFile?.(f);
+    if (f) { setStatus("loading"); onFile?.(f); }
   });
 
   // Mic
-  document.getElementById("btn-mic")?.addEventListener("click", () => onMic?.());
+  document.getElementById("btn-mic")?.addEventListener("click", () => {
+    setStatus("mic");
+    onMic?.();
+  });
 
   // Play/pause
   const btnPlay = document.getElementById("btn-play");
   btnPlay?.addEventListener("click", () => {
     const playing = onPlayToggle?.();
-    btnPlay.textContent = playing ? "PAUSE" : "PLAY";
+    btnPlay.setAttribute("data-i18n", playing ? "btn.pause" : "btn.play");
+    btnPlay.textContent = t(playing ? "btn.pause" : "btn.play");
+    setStatus(playing ? "playing" : "paused");
   });
+
+  // Language toggle
+  const btnLang = document.getElementById("btn-lang");
+  btnLang?.addEventListener("click", () => {
+    setLang(getLang() === "zh-TW" ? "en" : "zh-TW");
+    applyTo(document);
+  });
+
+  // Re-apply play button text on lang change
+  document.addEventListener("av:lang-change", () => {
+    if (btnPlay) btnPlay.textContent = t(btnPlay.getAttribute("data-i18n") || "btn.play");
+  });
+}
+
+function setStatus(kind) {
+  const el = document.getElementById("status");
+  if (!el) return;
+  const key = "status." + kind;
+  el.setAttribute("data-i18n", key);
+  el.textContent = t(key);
 }
 
 export function update() {}
