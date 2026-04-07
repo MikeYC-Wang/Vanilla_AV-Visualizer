@@ -1,0 +1,60 @@
+專案規劃書：純前端影音頻譜與特效渲染引擎 (Vanilla AV-Visualizer)
+1. 專案概述 (Project Overview)
+本專案旨在不依賴任何外部繪圖框架（如 Three.js、PixiJS）的前提下，完全利用原生 Web API (Web Audio API、Canvas 2D API) 打造一個高效能的影音視覺化工具。系統將即時解析音軌頻率數據，並針對影片影格進行像素級別（Pixel-level）的即時操作，呈現具備高度互動性的客製化特效。
+
+此專案不僅驗證前端底層技術，其架構亦可作為未來介接 WebRTC 或是經由後端轉碼（如 HLS/DASH 格式）之前端即時影音串流的視覺化監測與展示基礎。
+
+2. 系統架構設計 (System Architecture)
+系統架構主要分為四個獨立的資料流層次，確保高內聚與低耦合：
+
+輸入源管理層 (Input Layer)：
+
+支援本地端音檔/影片檔上傳 (<input type="file">)。
+
+支援讀取瀏覽器麥克風/攝影機串流 (navigator.mediaDevices.getUserMedia)。
+
+預留架構以支援 <video> 標籤讀取外部即時串流來源。
+
+數據解析層 (Data Extraction Layer)：
+
+音訊解析： 使用 AudioContext 與 AnalyserNode，透過快速傅立葉轉換 (FFT) 即時提取頻域 (Frequency Data) 與時域 (Time Domain Data) 陣列。
+
+影像解析： 利用隱藏的 <canvas> 將 <video> 的當前影格繪製出來，並透過 getImageData() 擷取 RGBA 像素陣列。
+
+渲染與運算層 (Rendering Layer)：
+
+核心 Render Loop：基於 requestAnimationFrame 建立穩定的 60fps 渲染迴圈。
+
+數據映射：將解析出的數據（如低頻重低音的振幅）轉化為視覺參數（如畫布縮放比例、粒子噴發速度、像素位移量）。
+
+介面控制層 (UI Control Layer)：
+
+純 HTML/CSS 打造的浮動式參數控制面板，利用原生的 input[type="range"] 與 CSS Variables 連動，即時調整特效閾值。
+
+3. 核心特效模組規格 (Feature Modules)
+模組 A：Audio Visualizer (音訊頻譜模組)
+
+環狀頻譜 (Circular Spectrum)： 以畫面中心為原點，根據頻率陣列繪製 360 度的動態柱狀圖。利用三角函數計算座標，並加入平滑過渡（SmoothingTimeConstant）避免畫面閃爍。
+
+粒子共振系統 (Particle Resonance)： 建立一個基礎物理引擎。畫面生成數百個粒子，當音量總和（RMS）超過特定閾值（Beat Detection）時，賦予粒子向外發散的向量加速度，隨後受阻尼係數影響逐漸減速。
+
+模組 B：Video FX & Overlay (影片特效疊加模組)
+
+即時 RGB 分離 (RGB Shift)： 讀取影像的像素陣列，在重繪至主畫布時，人為將 Red 通道與 Blue 通道的 X/Y 座標進行錯位，錯位距離由當前音軌的低頻能量（Bass）決定，製造強烈的數位震動感。
+
+數位故障干擾 (Glitch Effect)： 在渲染迴圈中加入隨機觸發機制，利用 Canvas 的 drawImage 隨機切割並橫向平移一小塊影像區域，模擬影片封包遺失或解碼錯誤的視覺效果。
+
+動態綠幕去背 (Chroma Keying)： 實作基礎的像素過濾器，掃描像素陣列，若判定為特定顏色（如綠色）範圍，則將其 Alpha 值設為 0，並將背後的音訊頻譜或自訂粒子背景透射出來。
+
+4. 技術規格與效能優化 (Technical Specs & Optimization)
+開發語言： HTML5, CSS3, ES6+ (純原生，無 npm 依賴)。
+
+繪圖核心： <canvas> 2D Rendering Context。
+
+效能優化策略：
+
+離屏渲染 (Offscreen Canvas)： 複雜的背景或不常變動的遮罩，先在記憶體中的 Canvas 畫好，再整塊 drawImage 到主畫面上，減少重複計算。
+
+記憶體管理： 嚴格控管粒子陣列的生命週期，超出邊界的粒子需進行物件池回收 (Object Pooling)，避免 Garbage Collection 造成的畫面卡頓 (Stuttering)。
+
+位元運算加速： 在處理數以萬計的像素數據 Uint8ClampedArray 時，盡量採用位元運算子 (Bitwise Operators) 取代一般數學運算以提升執行效率。
