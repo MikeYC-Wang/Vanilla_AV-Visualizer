@@ -12,7 +12,7 @@
   // --------------------------------------------------------------------------
   const state = {
     source: null,
-    url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+    url: "https://mdn.github.io/webaudio-examples/audio-basics/outfoxing.mp3",
     playing: false,
 
     fftSize: 2048,
@@ -78,9 +78,9 @@
       "error.unsupportedHost": "此網址為串流平台頁面，瀏覽器無法解析其音訊。請改用直連 .mp3/.mp4 檔案網址或上傳本地檔案。",
       "error.maybeNotMedia": "此網址看起來不是直連媒體檔，可能載入失敗",
       "sample.title": "範例",
-      "sample.1": "輕音樂",
-      "sample.2": "節奏",
-      "sample.3": "電子",
+      "sample.1": "範例 1",
+      "sample.2": "範例 2",
+      "sample.3": "範例 3",
     },
     "en": {
       "app.title": "Vanilla AV Visualizer",
@@ -114,9 +114,9 @@
       "error.unsupportedHost": "Streaming platform URLs cannot be decoded by the browser. Please use a direct .mp3/.mp4 file URL or upload a local file.",
       "error.maybeNotMedia": "URL doesn't look like a direct media file, may fail to load",
       "sample.title": "Samples",
-      "sample.1": "Lo-Fi",
-      "sample.2": "Beat",
-      "sample.3": "Electronic",
+      "sample.1": "Song 1",
+      "sample.2": "Song 2",
+      "sample.3": "Song 8",
     },
   };
 

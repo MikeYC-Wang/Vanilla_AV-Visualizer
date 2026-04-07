@@ -4,7 +4,7 @@
 export const state = {
   // playback / source
   source: null,          // 'url' | 'file' | 'mic' | null
-  url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+  url: "https://mdn.github.io/webaudio-examples/audio-basics/outfoxing.mp3",
   playing: false,
 
   // audio analysis (filled by analyser module)
